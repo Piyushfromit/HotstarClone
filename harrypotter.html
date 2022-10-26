@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <link rel="stylesheet" href="navbar.css" />
+  <link rel="stylesheet" href="product.css" />
+
+  <body>
+    <!-- navbar -->
+    <div id="navbar">
+      <div id="logo">
+        <img
+          class="wth"
+          src="https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg"
+          alt="logo"
+        />
+      </div>
+      <div id="moviecatagery">
+        <div><a href="avengers.html">Avengers</a></div>
+        <div><a href="transformers.html">Transformers</a></div>
+        <div><a href="thor.html">Thor</a></div>
+        <div><a href="fastandfurious.html">Fast and Furious</a></div>
+        <div><a href="matrix.html">Matrix</a></div>
+        <div><a href="harrypotter.html">Harry Potter</a></div>
+        <div><a href="18plus.html">18 plus</a></div>
+        <div><a href="index.html">🌟Latest Movie</a></div>
+      </div>
+
+      <div id="searchbox">
+        <input
+          oninput="debounce(main,1000)"
+          type="text"
+          id="querysearch"
+          placeholder="search movie"
+        />
+        <img
+          onclick="erase()"
+          src="https://www.pngitem.com/pimgs/m/21-212191_reload-blue-icon-png-image-free-download-searchpng.png"
+          alt=""
+        />
+      </div>
+
+      <div id="login_Status">
+        <div>Subscription</div>
+      </div>
+    </div>
+ 
+    <!-- search div -->
+    <div id="movies">
+      <!-- append searched part here -->
+    </div>
+
+    <!-- for filter -->
+    <button id="LH" onclick="sortLH()">Old Movie</button>
+    <button id="HL" onclick="sortHL()">New Movie</button>
+    <input
+    oninput="filter()"
+    type="text"
+    id="query"
+    placeholder="Filter by search"
+    />
+    <select onchange="filterbyyear()" name="" id="filterbyYear">
+      <option value="all">Filter by year</option>
+      <option value="2012">2012</option>
+      <option value="2016">2016</option>
+      <option value="2018">2018</option>
+      <option value="2019">2019</option>
+    </select>
+    <!-- Body box -->
+    <div id="container">
+      <!-- append  movie here -->
+    </div>
+  </body>
+</html>
+<script src="searchbox.js"></script>
+<script>
+  //   Api site link :      "https://www.omdbapi.com/"
+
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=sex";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=cartoon";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=matrix";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=transformers";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=pirates";
+  const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=harry";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=fast&furious";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=avengers";
+  //const urlbody = "https://www.omdbapi.com/?apikey=af714f66&s=thor";
+
+  let data;
+
+  // fetch(urlbody)
+  //   .then(function (res) {
+  //     return res.json();
+  //   })
+  //   .then(function (res) {
+  //     //console.log(res);
+  //     data=res.Search
+  //     //console.log(data)
+  //     appendondisplay(data);
+  //   })
+  //   .catch(function (err) {
+  //     console.log(err);
+  //     // alert("movie not found")
+  //   });
+
+  async function getData() {
+    try {
+      let res = await fetch(urlbody);
+      let res2 = await res.json();
+      data = res2.Search;
+      appendondisplay(data);
+      //console.log(res2);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  getData();
+
+  let container = document.getElementById("container");
+
+  function appendondisplay(data) {
+    container.innerHTML = "";
+
+    data.forEach(function (el) {
+      let img = document.createElement("img");
+      img.src = el.Poster;
+
+      let name = document.createElement("p");
+      name.setAttribute("class", "title");
+      name.innerText = el.Title;
+
+      let year = document.createElement("p");
+      year.setAttribute("class", "yearprint");
+      year.innerText = el.Year;
+      let imdb = document.createElement("p");
+      imdb.setAttribute("class", "printimdb");
+      imdb.innerText = "Imdb:-"+(Math.random()*10).toFixed(1);
+
+      let innerdiv = document.createElement("div");
+      innerdiv.append(img, name, year,imdb);
+      container.append(innerdiv);
+    });
+  }
+
+  // sort by year
+
+  function sortLH() {
+    //console.log(data)
+    data = data.sort(function (a, b) {
+      return a.Year - b.Year;
+    });
+    appendondisplay(data);
+  }
+
+  function sortHL() {
+    data = data.sort(function (a, b) {
+      return b.Year - a.Year;
+    });
+    appendondisplay(data);
+  }
+
+  // filter by search
+
+  function filter() {
+    let query = document.getElementById("query").value;
+
+    let copr_data = data;
+    copr_data = copr_data.filter(function (ele) {
+      return ele.Title.toLowerCase().includes(query.toLowerCase());
+    });
+    //console.log(query)
+    appendondisplay(copr_data);
+  }
+
+  //  filter by particular Year
+
+  function filterbyyear() {
+    let year = document.querySelector("#filterbyYear").value;
+    let copr_data = data;
+    copr_data = copr_data.filter(function (ele) {
+      return ele.Year == year;
+    });
+    appendondisplay(copr_data);
+
+    if (year == "all") {
+      appendondisplay(data);
+    }
+  }
+</script>

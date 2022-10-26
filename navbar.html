@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <link rel="stylesheet" href="navbar.css" />
+  <style>
+
+  </style>
+  <body>
+    <!-- navbar -->
+    <div id="navbar">
+      <div id="logo">
+        <img
+          class="wth"
+          src="https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg"
+          alt="logo"
+        />
+      </div>
+      <div id="moviecatagery">
+        <div><a href="avengers.html">Avengers</a></div>
+        <div><a href="transformers.html">Transformers</a></div>
+        <div><a href="thor.html">Thor</a></div>
+        <div><a href="fastandfurious.html">Fast and Furious</a></div>
+        <div><a href="matrix.html">Matrix</a></div>
+        <div><a href="harrypotter.html">Harry Potter</a></div>
+        <div><a href="18plus.html">18 plus</a></div>
+        <div><a href="index.html">🌟Latest Movie</a></div>
+      </div>
+
+      <div id="searchbox">
+        <input
+          oninput="debounce(main,1000)"
+          type="text"
+          id="querysearch"
+          placeholder="search movie"
+        />
+        <img
+          onclick="erase()"
+          src="https://www.pngitem.com/pimgs/m/21-212191_reload-blue-icon-png-image-free-download-searchpng.png"
+          alt=""
+        />
+      </div>
+
+      <div id="login_Status">
+        <div>Subscription</div>
+      </div>
+    </div>
+ 
+    <!-- search div -->
+    <div id="movies">
+      <!-- append searched part here -->
+    </div>
+
+    
+  </body>
+</html>
+
+<script src="searchbox.js"></script>

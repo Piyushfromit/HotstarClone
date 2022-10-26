@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ave</title>
+  </head>
+
+  <link rel="stylesheet" href="navbar.css" />
+  <link rel="stylesheet" href="product.css" />
+
+  <body>
+    <!-- navbar -->
+    <div id="navbar">
+      <div id="logo">
+        <img
+        
+          class="wth"
+          src="https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg"
+          alt="logo"
+        />
+      </div>
+      <div id="moviecatagery">
+        <div><a href="avengers.html">Avengers</a></div>
+        <div><a href="transformers.html">Transformers</a></div>
+        <div><a href="thor.html">Thor</a></div>
+        <div><a href="fastandfurious.html">Fast and Furious</a></div>
+        <div><a href="matrix.html">Matrix</a></div>
+        <div><a href="harrypotter.html">Harry Potter</a></div>
+        <div><a href="18plus.html">18 plus</a></div>
+        <div><a href="index.html">🌟Latest Movie</a></div>
+      </div>
+
+      <div id="searchbox">
+        <input
+          oninput="debounce(main,1000)"
+          type="text"
+          id="querysearch"
+          placeholder="search movie"
+        />
+        <img
+          onclick="erase()"
+          src="https://www.pngitem.com/pimgs/m/21-212191_reload-blue-icon-png-image-free-download-searchpng.png"
+          alt=""
+        />
+      </div>
+
+      <div id="login_Status">
+        <div>Subscription</div>
+      </div>
+    </div>
+ 
+    <!-- search div -->
+    <div id="movies">
+      <!-- append searched part here -->
+    </div>
+
+    <!-- for filter -->
+    <button id="LH" onclick="sortLH()">Old Movie</button>
+    <button id="HL" onclick="sortHL()">New Movie</button>
+    <input
+    oninput="filter()"
+    type="text"
+    id="query"
+    placeholder="Filter by search"
+    />
+    <h2 id="letest">Latest Movie</h2>
+    <!-- <select onchange="filterbyyear()" name="" id="filterbyYear">
+      <option value="all">Filter by year</option>
+      <option value="2012">2012</option>
+      <option value="2016">2016</option>
+      <option value="2018">2018</option>
+      <option value="2019">2019</option>
+    </select> -->
+    <!-- Body box -->
+    <div id="container">
+      <!-- append  movie here -->
+    </div>
+  </body>
+</html>
+<script src="searchbox.js"></script>
+<script>
+      // api key of TMDB movie website=   58da429a2df00bd7d3d889c4c83702f2    
+
+      // api link for of trending movie =  https://api.themoviedb.org/3/trending/all/day?api_key=<<api_key>> 
+
+      // final api link = https://api.themoviedb.org/3/trending/movie/week?api_key=58da429a2df00bd7d3d889c4c83702f2 
+
+  const urlbody = "https://api.themoviedb.org/3/trending/movie/week?api_key=58da429a2df00bd7d3d889c4c83702f2";
+  let data;
+
+  async function getData() {
+    try {
+      let res = await fetch(urlbody);
+      let res2 = await res.json();
+      data = res2.results;
+      appendondisplay(data);
+      //console.log(res2);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  getData();
+
+// in TMDEB api, image url is in 2 part , first part is commen for every image and 2nd part is in api data
+// first part =https://image.tmdb.org/t/p/w500
+// 2nd part =  /cv6zBbPfP0MMxgMdve95YrIIQwq.jpg
+// final image = https://image.tmdb.org/t/p/w500/cv6zBbPfP0MMxgMdve95YrIIQwq.jpg
+   
+//https://image.tmdb.org/t/p/w500/keBPoGFL8iTJWvJ28CqaGYR92BX.jpg
+
+let container = document.getElementById("container");
+   let imgfirsthalf="https://image.tmdb.org/t/p/w500"
+   
+   function appendondisplay(data) {
+    container.innerHTML = "";
+
+     data.forEach(function (el) {
+      let img = document.createElement("img");
+      img.src = imgfirsthalf+el.poster_path;
+
+      let name = document.createElement("p");
+      name.setAttribute("class", "title");
+      name.innerText = el.original_title;
+
+      let year = document.createElement("p");
+      year.setAttribute("class", "yearprint");
+      year.innerText = "Released:-"+el.release_date;
+
+      let imdb = document.createElement("p");
+      imdb.setAttribute("class", "yearprint");
+      imdb.innerText = "Imdb:-"+el.vote_average;
+
+      let innerdiv = document.createElement("div");
+      innerdiv.append(img, name, year,imdb);
+      container.append(innerdiv);
+    });
+  }
+
+    // sort by year
+
+  function sortLH() {
+    //console.log(data)
+    data = data.sort(function (a, b) {
+      return a.vote_average - b.vote_average;
+    });
+    appendondisplay(data);
+  }
+
+  function sortHL() {
+    data = data.sort(function (a, b) {
+      return b.vote_average - a.vote_average;
+    });
+    appendondisplay(data);
+  }
+
+
+    // filter by search
+
+  function filter() {
+    let query = document.getElementById("query").value;
+
+    let copr_data = data;
+    copr_data = copr_data.filter(function (ele) {
+      return ele.original_title.toLowerCase().includes(query.toLowerCase());
+    });
+    //console.log(query)
+    appendondisplay(copr_data);
+  }
+
+ 
+</script>
+
+
+
+
+    

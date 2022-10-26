@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>onemovie</title>
+  </head>
+  <link rel="stylesheet" href="navbar.css" />
+
+  <style>
+    /* css for onemovie page */
+    * {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif;
+}
+body {
+  background-color: #0c111b;
+  
+}
+     #singlemovie{
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+      width: 50%;
+      border-radius: 20px;
+      padding-bottom: 20px;
+      background-color: #0c111b;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px;
+      margin-left: 25%;
+     }
+
+     #singlemovie> img {
+     width: 50%;
+     border-radius: 20px;
+    }
+    #singlemovie> div>p{
+     color: white;
+     font-size: 40px;
+     line-height: 100px;
+   margin-left: 10px;
+    }
+
+
+  </style>
+
+  <body>
+  <!-- navbar -->
+  <div id="navbar">
+    <div id="logo">
+      <img
+        class="wth"
+        src="https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg"
+        alt="logo"
+      />
+    </div>
+    <div id="moviecatagery">
+      <div><a href="avengers.html">Avengers</a></div>
+      <div><a href="transformers.html">Transformers</a></div>
+      <div><a href="thor.html">Thor</a></div>
+      <div><a href="fastandfurious.html">Fast and Furious</a></div>
+      <div><a href="matrix.html">Matrix</a></div>
+      <div><a href="harrypotter.html">Harry Potter</a></div>
+      <div><a href="18plus.html">18 plus</a></div>
+      <div><a href="index.html">🌟Latest Movie</a></div>
+    </div>
+
+    <div id="searchbox">
+      <input
+        oninput="debounce(main,1000)"
+        type="text"
+        id="querysearch"
+        placeholder="search movie"
+      />
+      <img
+        onclick="erase()"
+        src="https://www.pngitem.com/pimgs/m/21-212191_reload-blue-icon-png-image-free-download-searchpng.png"
+        alt=""
+      />
+    </div>
+
+    <div id="login_Status">
+      <div>Subscription</div>
+    </div>
+  </div>
+
+  <!-- search div -->
+  <div id="movies">
+    <!-- append searched part here -->
+  </div>
+
+    <div id="singlemovie">
+      <!-- append single movie data here -->
+    </div>
+
+  </body>
+</html>
+<script src="searchbox.js"></script>
+<script>
+  let movieObj = JSON.parse(localStorage.getItem("particularmovie"));
+  //console.log("movieObj:", movieObj);
+
+  let movieDiv = document.getElementById("singlemovie");
+
+  displaysinglemovie(movieObj)
+
+  function displaysinglemovie(movieObj) {
+
+    let img = document.createElement("img");
+    img.src = movieObj.Poster;
+
+    let title = document.createElement("p");
+    title.innerText= "Title:"+movieObj.Title;
+
+    let year = document.createElement("p");
+    year.innerText= "Year:-"+ movieObj.Year;
+
+    let imdb = document.createElement("p");
+    imdb.innerText="Imdb:-"+(Math.random()*10).toFixed(1);
+
+    let details =document.createElement("div")
+    details.append(title,year,imdb)
+    movieDiv.append(img,details)
+    
+  }
+</script>
